@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "892971539925",
+    "firebase_url": "https://comemepro-f48bc-default-rtdb.firebaseio.com",
+    "project_id": "comemepro-f48bc",
+    "storage_bucket": "comemepro-f48bc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:892971539925:android:a2930705f4b7c2d72f315c",
+        "android_client_info": {
+          "package_name": "com.comemepro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "892971539925-c0p64fjpgr82add6s2kke2opo3sfqb9t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_JiyE6XYOC45jIXNR88IRjkEQFX8WCfQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "892971539925-c0p64fjpgr82add6s2kke2opo3sfqb9t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

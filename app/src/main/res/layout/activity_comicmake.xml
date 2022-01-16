@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/white2"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context=".comicmake">
+
+    <RelativeLayout
+        android:id="@+id/r1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/chk_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:orientation="horizontal" />
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:background="#000000" />
+
+        <HorizontalScrollView
+            android:id="@+id/scroll"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@id/line"
+            tools:ignore="SpeakableTextPresentCheck">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/explodingspeechbubble"
+                    android:layout_width="397dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/ddonggoexplosion" />
+
+                <ImageView
+                    android:id="@+id/iv1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/adsfasd" />
+
+                <ImageView
+                    android:id="@+id/normal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ddonggofuckyou" />
+
+                <!--<ImageView
+                        android:id="@+id/imageView35"
+                        android:layout_width="wrap_content"
+                        android:layout_height="158dp"
+                        app:srcCompat="@drawable/spechbubble1234"/>
+
+                    <ImageView
+                        android:id="@+id/imageView44"
+                        android:layout_width="wrap_content"
+                        android:layout_height="158dp"
+                        app:srcCompat="@drawable/speechbubblelelelelel" />
+
+                    <ImageView
+                        android:id="@+id/imageView55"
+                        android:layout_width="wrap_content"
+                        android:layout_height="158dp"
+                        app:srcCompat="@drawable/speeeeeeeeechhhhhhhhhhhhhhhbub" />
+
+                    <ImageView
+                        android:id="@+id/imageView88"
+                        android:layout_width="wrap_content"
+                        android:layout_height="158dp"
+                        app:srcCompat="@drawable/boom" />
+
+                    <ImageView
+                        android:id="@+id/imageView99"
+                        android:layout_width="wrap_content"
+                        android:layout_height="158dp"
+                        app:srcCompat="@drawable/bwoa" />-->
+
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <View
+            android:id="@+id/line8"
+            android:layout_width="match_parent"
+            android:layout_height="4px"
+            android:layout_below="@id/scroll"
+            android:background="#000000" />
+
+        <View
+            android:id="@+id/line5"
+            android:layout_width="match_parent"
+            android:layout_height="4px"
+            android:layout_below="@id/scroll"
+            android:background="#000000" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/bottom"
+            android:layout_below="@id/line8"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="-3dp">
+
+            <LinearLayout
+                android:id="@+id/color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imageView9"
+                    android:layout_width="85dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/ddonggoshowyourfuckingass" />
+
+                <ImageView
+                    android:id="@+id/imageView10"
+                    android:layout_width="85dp"
+                    android:layout_height="46dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/te8ygd4satj6flj7muui2v_480_80" />
+
+                <ImageView
+                    android:id="@+id/design"
+                    android:layout_width="92dp"
+                    android:layout_height="45dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/ddonggoshowyourass" />
+
+                <ImageView
+                    android:id="@+id/paint"
+                    android:layout_width="90dp"
+                    android:layout_height="46dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/ddonggoshowwithddongoshow" />
+
+                <ImageView
+                    android:id="@+id/delete"
+                    android:layout_width="90dp"
+                    android:layout_height="46dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/ddonggodelete" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/line7"
+                android:layout_width="match_parent"
+                android:layout_height="4px"
+                android:layout_below="@id/color"
+                android:background="#000000" />
+
+            <View
+                android:id="@+id/line9"
+                android:layout_width="match_parent"
+                android:layout_height="4px"
+                android:layout_below="@id/minus"
+                android:background="#000000" />
+
+            <ImageView
+                android:id="@+id/minus"
+                android:layout_width="35dp"
+                android:layout_height="32dp"
+                android:layout_below="@id/line7"
+                app:srcCompat="@drawable/ddonggobutt" />
+
+            <ImageView
+                android:id="@+id/plus"
+                android:layout_width="35dp"
+                android:layout_height="32dp"
+                android:layout_below="@id/line7"
+                android:layout_alignParentRight="true"
+                app:srcCompat="@drawable/hwansangeddonggoshow" />
+
+            <View
+                android:id="@+id/line10"
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_below="@id/colorpick"
+                android:background="#000000" />
+
+            <LinearLayout
+                android:id="@+id/colorpick"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/plus"
+                android:orientation="horizontal" >
+
+                <ImageView
+                    android:id="@+id/colors"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:layout_marginTop="3dp"
+                    app:srcCompat="@drawable/word_color_filled_colorful_image_word_color_filled_blurry_multicolour_image_white_background_218016631" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/draw"
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:layout_below="@id/colorpick"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="-3dp"
+                android:layout_marginBottom="6dp">
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
+
+            <View
+                android:id="@+id/line6"
+                android:layout_width="match_parent"
+                android:layout_height="4px"
+                android:background="#000000" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="done" />
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
