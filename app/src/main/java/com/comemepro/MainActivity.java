@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            progressDialog.dismiss(); //?낅줈??吏꾪뻾 Dialog ?곸옄 ?リ린
+                            progressDialog.dismiss();
                             Toast.makeText(getApplicationContext(), "Upload Success!", Toast.LENGTH_SHORT).show();
                         }
                     })
@@ -173,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "Upload failed", Toast.LENGTH_SHORT).show();
                         }
                     })
-                    //吏꾪뻾以?
+
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {

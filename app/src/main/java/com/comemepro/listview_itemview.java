@@ -3,6 +3,7 @@ package com.comemepro;
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.Image;
 import android.net.Uri;
 import android.util.AttributeSet;
@@ -31,10 +32,12 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import org.w3c.dom.Comment;
+
 public class listview_itemview extends LinearLayout {
     TextView num;
     int cnt;
-    ImageView img_test,img_like,img_unlike,delete;
+    ImageView img_test,img_like,img_unlike,delete,comment;
     Button btn_report,btn_share;
     FirebaseStorage storage = FirebaseStorage.getInstance("gs://comemepro-f48bc.appspot.com");
     StorageReference storageRef = storage.getReference();
@@ -55,6 +58,7 @@ public class listview_itemview extends LinearLayout {
         num = (TextView)view.findViewById(R.id.textView8);
         img_test = (ImageView)view.findViewById(R.id.rectangle);
         delete = (ImageView)view.findViewById(R.id.delete);
+        comment= (ImageView)view.findViewById(R.id.comment);
         img_like.setImageResource(R.drawable.like);
         delete.setImageResource(R.drawable.ddonggodelete);
         cnt=0;
@@ -64,7 +68,13 @@ public class listview_itemview extends LinearLayout {
                 num.setText(cnt);
             }
         });
-
+        comment.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.d("오류찾기","버튼이 클릭 되는걸까?");
+                Intent i = new Intent(view.getContext(), com.comemepro.comments.class);
+                getContext().startActivity(i);
+            }
+        });
     }
 
     public void setImg_main(String name){
@@ -83,6 +93,7 @@ public class listview_itemview extends LinearLayout {
         });
     }
     public void strImg(String txt){
+
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

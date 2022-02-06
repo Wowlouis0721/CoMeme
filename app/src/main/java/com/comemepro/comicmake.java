@@ -2,6 +2,7 @@ package com.comemepro;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -15,6 +16,7 @@ import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -24,10 +26,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import java.io.File;
+import java.io.*;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -36,14 +42,24 @@ import java.util.Date;import com.bumptech.glide.annotation.GlideModule;
 import com.bumptech.glide.module.AppGlideModule;
 import com.comemepro.R;
 import com.comemepro.upload2;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import top.defaults.colorpicker.ColorPickerPopup;
 
 public class comicmake extends AppCompatActivity {
 
     Button click;
+    String filePath;
 
     private static final int REQUEST_EXTERNAL_STORAGe = 1;
+    private DatabaseReference mDatabase;
     private static String[] permissionstorage = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
     int thickness=30;
     int change=10;
@@ -130,7 +146,7 @@ public class comicmake extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comicmake);
-        verifystoragepermissions(this);
+        verifyStoragePermission(this);
         img=(ImageView)findViewById(R.id.iv1);
         r1 = (RelativeLayout) findViewById(R.id.r1);
         eraser = (ImageView)findViewById(R.id.imageView10);
@@ -144,7 +160,13 @@ public class comicmake extends AppCompatActivity {
         colors = (ImageView) findViewById(R.id.colors);
         delete = (ImageView) findViewById(R.id.delete);
 
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        mDatabase=database.getReference("Post");
 
+
+        verifyStoragePermission(this);
+        StrictMode.VmPolicy.Builder builder=new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
         final MyView m = new MyView(draw.getContext());
         draw.addView(m);
         draw1.setOnClickListener(new View.OnClickListener() {
@@ -302,11 +324,10 @@ public class comicmake extends AppCompatActivity {
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "You just Captured a Screenshot," +
-                        " Open Gallery/ File Storage to view your captured Screenshot", Toast.LENGTH_SHORT).show();
-                screenshot(getWindow().getDecorView().getRootView(), "result");
+                ScreenshotButton(v);
                 Intent i = new Intent(comicmake.this,upload2.class);
                 startActivity(i);
+
             }
         });
 
@@ -329,53 +350,110 @@ public class comicmake extends AppCompatActivity {
                 cnt++;
             }
         });
-
-
-
-        //gfgTextView.setTextColor(mDefaultColor);
-
     }
+    public void ScreenshotButton(View view){
+        View rootView=getWindow().getDecorView();
 
-    protected static File screenshot(View view, String filename) {
-        Date date = new Date();
-
-        // Here we are initialising the format of our image name
-        CharSequence format = android.text.format.DateFormat.format("yyyy-MM-dd_hh:mm:ss", date);
-        try {
-            // Initialising the directory of storage
-            String dirpath = Environment.getExternalStorageDirectory() + "";
-            File file = new File(dirpath);
-            if (!file.exists()) {
-                file.mkdirs();
-            }
-            // File name
-            String path = dirpath + "/ComeMe/" + filename + "-" + format + ".jpeg";
-            view.setDrawingCacheEnabled(true);
-            Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache());
-            view.setDrawingCacheEnabled(false);
-            File imageurl = new File(path);
-            FileOutputStream outputStream = new FileOutputStream(imageurl);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, outputStream);
-            outputStream.flush();
-            outputStream.close();
-            return imageurl;
-
-        } catch (FileNotFoundException io) {
-            io.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        File screenShot=Screenshot(rootView);
+        if(screenShot!=null){
+            sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(screenShot)));
         }
-        return null;
+        b1.setVisibility(View.VISIBLE);
+        Toast.makeText(getApplicationContext(),"Saved to Gallery", Toast.LENGTH_SHORT).show();
+    }
+    public File Screenshot(View view) {
+        b1.setVisibility(View.INVISIBLE);
+        view.setDrawingCacheEnabled(true);
+        Bitmap screenBitmap = view.getDrawingCache();
+
+        String filename = "CoMeme" + System.currentTimeMillis() + ".png";
+        filePath=Environment.getExternalStorageDirectory() + "/Pictures"+filename;
+        File file = new File(Environment.getExternalStorageDirectory() + "/Pictures", filename);
+        FileOutputStream os = null;
+        try{
+            os=new FileOutputStream(file);
+            screenBitmap.compress(Bitmap.CompressFormat.PNG,90,os);
+            os.close();
+        }
+        catch(IOException e){
+            e.printStackTrace();
+            return null;
+        }
+
+        view.setDrawingCacheEnabled(false);
+        return file;
     }
 
-    // verifying if storage permission is given or not
-    public static void verifystoragepermissions(Activity activity) {
+    private static final int REQUEST_EXTERNAL_STORAGE=1;
+    private static String[] PERMISSION_STORAGE={
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+    };
+    public static void verifyStoragePermission(Activity activity){
+        int permission= ActivityCompat.checkSelfPermission(activity,Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
-        int permissions = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if(permission!= PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(activity,
+                    PERMISSION_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE);
+        }
+    }
+    public Map<String, Object> toMap(String img, String key, String like, String unlike,String title, String uid) {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("img", img);
+        result.put("key", key);
+        result.put("like", like);
+        result.put("title", title);
+        result.put("unlike", unlike);
+        result.put("uid", uid);
 
-        // If storage permission is not given then request for External Storage Permission
-        if (permissions != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(activity, permissionstorage, REQUEST_EXTERNAL_STORAGe);
+        return result;
+    }
+    private void writeNewPost(String img, String key2, String like, String unlike,String title, String uid) {
+        String key = mDatabase.push().getKey();
+        Map<String, Object> postValues = toMap(img, key, like, unlike, title, uid);
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put(key, postValues);
+        mDatabase.updateChildren(childUpdates);
+    }
+    //upload the file
+    private void uploadFile() {
+        if (filePath != null) {
+            final ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle("uploading");
+            progressDialog.show();
+
+            //storage
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+
+            StorageReference storageRef = storage.getReferenceFromUrl("gs://comemepro-f48bc.appspot.com/").child(filePath);
+
+            storageRef.putFile(Uri.parse(filePath))
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            progressDialog.dismiss();
+                            Toast.makeText(getApplicationContext(), "Upload Success!", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            progressDialog.dismiss();
+                            Toast.makeText(getApplicationContext(), "Upload failed", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            @SuppressWarnings("VisibleForTests")
+                            double progress = (100 * taskSnapshot.getBytesTransferred()) /  taskSnapshot.getTotalByteCount();
+                            progressDialog.setMessage("Uploaded " + ((int) progress) + "% ...");
+                        }
+                    });
+        } else {
+            Toast.makeText(getApplicationContext(), "upload fail", Toast.LENGTH_SHORT).show();
         }
     }
 }

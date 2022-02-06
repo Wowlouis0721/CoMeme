@@ -5,10 +5,14 @@
       <map>
         <entry key="..\:/Users/user/AndroidStudioProjects/ComeMePro/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.12685185185185185" />
         <entry key="..\:/Users/user/AndroidStudioProjects/ComeMePro/app/src/main/res/layout/activity_comicmake.xml" value="0.3463541666666667" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/ComeMePro/app/src/main/res/layout/activity_comments.xml" value="0.33" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/ComeMePro/app/src/main/res/layout/activity_custom_comment.xml" value="0.3229166666666667" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/ComeMePro/app/src/main/res/layout/activity_detail.xml" value="0.33" />
         <entry key="..\:/Users/user/AndroidStudioProjects/ComeMePro/app/src/main/res/layout/activity_login.xml" value="0.2296875" />
         <entry key="..\:/Users/user/AndroidStudioProjects/ComeMePro/app/src/main/res/layout/activity_main.xml" value="0.3463541666666667" />
         <entry key="..\:/Users/user/AndroidStudioProjects/ComeMePro/app/src/main/res/layout/activity_makeacomic.xml" value="0.2296875" />
         <entry key="..\:/Users/user/AndroidStudioProjects/ComeMePro/app/src/main/res/layout/activity_upload2.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/ComeMePro/app/src/main/res/layout/comments.xml" value="0.3619791666666667" />
         <entry key="..\:/Users/user/AndroidStudioProjects/ComeMePro/app/src/main/res/layout/item.xml" value="0.2296875" />
         <entry key="..\:/Users/user/AndroidStudioProjects/ComeMePro/app/src/main/res/layout/item2.xml" value="0.5" />
       </map>
