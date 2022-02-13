@@ -17,13 +17,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ComeMePro">
         <activity
+            android:name=".comicmake_detail"
+            android:exported="false" />
+        <activity
+            android:name=".comicmake_comment"
+            android:exported="false" />
+        <activity
             android:name=".custom_comment"
-            android:exported="false" />
-        <activity
-            android:name=".detail"
-            android:exported="false" />
-        <activity
-            android:name=".comments"
             android:exported="false" />
         <activity android:name=".upload2" />
         <activity android:name=".upload" />

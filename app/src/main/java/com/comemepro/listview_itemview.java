@@ -1,10 +1,7 @@
 package com.comemepro;
 
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
-
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.net.Uri;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -20,7 +17,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
-import com.comemepro.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -31,8 +27,6 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
-import org.w3c.dom.Comment;
 
 public class listview_itemview extends LinearLayout {
     TextView num;
@@ -71,8 +65,8 @@ public class listview_itemview extends LinearLayout {
         comment.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Log.d("오류찾기","버튼이 클릭 되는걸까?");
-                Intent i = new Intent(view.getContext(), com.comemepro.comments.class);
-                getContext().startActivity(i);
+                Intent open = new Intent(listview_itemview.this, commments.class);
+                startActivity(open);
             }
         });
     }
