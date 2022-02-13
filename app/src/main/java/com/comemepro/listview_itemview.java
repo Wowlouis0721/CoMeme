@@ -64,9 +64,9 @@ public class listview_itemview extends LinearLayout {
         });
         comment.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Log.d("오류찾기","버튼이 클릭 되는걸까?");
-                Intent open = new Intent(listview_itemview.this, commments.class);
-                startActivity(open);
+                //Log.d("오류찾기","버튼이 클릭 되는걸까?");
+                //Intent open = new Intent(listview_itemview.this, commments.class);
+                //startActivity(open);
             }
         });
     }

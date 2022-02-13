@@ -20,22 +20,22 @@
             android:name=".comicmake_detail"
             android:exported="false" />
         <activity
-            android:name=".comicmake_comment"
-            android:exported="false" />
-        <activity
-            android:name=".custom_comment"
+            android:name=".comicmake_comment">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+        <activity android:name=".custom_comment"
             android:exported="false" />
         <activity android:name=".upload2" />
         <activity android:name=".upload" />
         <activity android:name=".signup" />
         <activity android:name=".comicmake" />
         <activity android:name=".login">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+             </activity>
         <activity android:name=".MainActivity" />
     </application>
 
