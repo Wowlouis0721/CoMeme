@@ -1,7 +1,9 @@
 package com.comemepro;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -11,7 +13,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
+import com.comemepro.listview_item;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -34,6 +36,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
     StorageReference storageRef = storage.getReference();
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {
+        protected ImageView comment;
         protected ImageView img_test;
         protected ImageView img_like;
         protected ImageView delete;
@@ -46,6 +49,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
             this.img_test = (ImageView)view.findViewById(R.id.rectangle);
             this.img_like = (ImageView)view.findViewById(R.id.like);
             this.delete = (ImageView)view.findViewById(R.id.delete);
+            this.comment = (ImageView)view.findViewById(R.id.comment);
         }
     }
 
@@ -103,11 +107,26 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
                 });
             }
         });
+
+        viewholder.img_like.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Log.d("Like Button ","is Pressed.");
+            }
+        });
+
+        viewholder.comment.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent open=new Intent(v.getContext(), com.comemepro.comicmake_detail.class);
+                v.getContext().startActivity(open);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return (null != items ? items.size() : 0);
+        return(null != items ? items.size():0);
     }
 
     public void clear(){

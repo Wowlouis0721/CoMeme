@@ -14,12 +14,6 @@
         android:layout_marginTop="20dp"
         app:srcCompat="@drawable/mooyaho" />
 
-    <view
-        android:id="@+id/view"
-        class="com.comemepro.listview_itemview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
     <ImageView
         android:id="@+id/comment"
         android:layout_width="40dp"

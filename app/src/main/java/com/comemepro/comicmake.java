@@ -44,6 +44,7 @@ import com.comemepro.R;
 import com.comemepro.upload2;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -57,6 +58,7 @@ public class comicmake extends AppCompatActivity {
 
     Button click;
     String filePath;
+    private Uri filePath2;
 
     private static final int REQUEST_EXTERNAL_STORAGe = 1;
     private DatabaseReference mDatabase;
@@ -198,18 +200,9 @@ public class comicmake extends AppCompatActivity {
                                 "Cancel")
                         // closes the
                         .showIndicator(
-                                true) // this is the small box
-                        // which shows the chosen
-                        // color by user at the
-                        // bottom of the cancel
-                        // button
+                                true)
                         .showValue(
-                                true) // this is the value which
-                        // shows the selected
-                        // color hex code
-                        // the above all values can be made
-                        // false to disable them on the
-                        // color picker dialog.
+                                true)
                         .build()
                         .show(
                                 v,
@@ -217,16 +210,7 @@ public class comicmake extends AppCompatActivity {
                                     @Override
                                     public void
                                     onColorPicked(int color1) {
-                                        // set the color
-                                        // which is returned
-                                        // by the color
-                                        // picker
                                         mDefaultColor = color1;
-
-                                        // now as soon as
-                                        // the dialog closes
-                                        // set the preview
-                                        // box to returned
                                         color=color1;
                                     }
                                 });
@@ -262,7 +246,7 @@ public class comicmake extends AppCompatActivity {
         plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-                change=m.getStroke()+30;
+                change=m.getStroke()+5;
                 Context context = getApplicationContext();
                 CharSequence text = "Change the thickness of eraser.";
                 int duration = Toast.LENGTH_SHORT;
@@ -292,7 +276,6 @@ public class comicmake extends AppCompatActivity {
                 now=imageView.getId();
             }
         };
-        RelativeLayout rt = (RelativeLayout)findViewById(R.id.draw);
         ImageView.OnTouchListener imgTouch = new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent event) {
@@ -300,8 +283,6 @@ public class comicmake extends AppCompatActivity {
                     case MotionEvent.ACTION_DOWN:
                         break;
                     case MotionEvent.ACTION_MOVE:
-                        //arrImg.get(now).setX(event.getX()-(arrImg.get(now).getWidth()/2));
-                        //arrImg.get(now).setY(event.getY()-(arrImg.get(now).getHeight()/2));
                         if(chk==true) {
                             arrImg.get(now).setX(arrImg.get(now).getX() + event.getX() - (arrImg.get(now).getWidth() / 2));
                             arrImg.get(now).setY(arrImg.get(now).getY() + event.getY() - (arrImg.get(now).getHeight() / 2));
@@ -330,8 +311,6 @@ public class comicmake extends AppCompatActivity {
 
             }
         });
-
-
 
         arrImg=new ArrayList<>();
         img.setOnClickListener(new View.OnClickListener() {
@@ -373,6 +352,9 @@ public class comicmake extends AppCompatActivity {
         try{
             os=new FileOutputStream(file);
             screenBitmap.compress(Bitmap.CompressFormat.PNG,90,os);
+            Uri file_uri = Uri.fromFile(file);
+            uploadFile(file_uri);
+            writeNewPost(filename,"xxx","0","0","Noname", FirebaseAuth.getInstance().getCurrentUser().getUid());
             os.close();
         }
         catch(IOException e){
@@ -416,9 +398,8 @@ public class comicmake extends AppCompatActivity {
         childUpdates.put(key, postValues);
         mDatabase.updateChildren(childUpdates);
     }
-    //upload the file
-    private void uploadFile() {
-        if (filePath != null) {
+    private void uploadFile(Uri file_uri) {
+        if (file_uri != null) {
             final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("uploading");
             progressDialog.show();
@@ -426,9 +407,11 @@ public class comicmake extends AppCompatActivity {
             //storage
             FirebaseStorage storage = FirebaseStorage.getInstance();
 
-            StorageReference storageRef = storage.getReferenceFromUrl("gs://comemepro-f48bc.appspot.com/").child(filePath);
-
-            storageRef.putFile(Uri.parse(filePath))
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMHH_mmss");
+            Date now = new Date();
+            String filename = FirebaseAuth.getInstance().getCurrentUser().getUid()+'_'+formatter.format(now) + ".png";
+            StorageReference storageRef = storage.getReferenceFromUrl("gs://comemepro-f48bc.appspot.com/").child("images/" + filename);
+            storageRef.putFile(file_uri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {

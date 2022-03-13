@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
 
             SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMHH_mmss");
             Date now = new Date();
-            filename = formatter.format(now) + ".png";
+            filename = FirebaseAuth.getInstance().getCurrentUser().getUid()+'_'+formatter.format(now) + ".png";
             StorageReference storageRef = storage.getReferenceFromUrl("gs://comemepro-f48bc.appspot.com/").child("images/" + filename);
             storageRef.putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -186,79 +186,5 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "upload fail", Toast.LENGTH_SHORT).show();
         }
     }
-
-    /*class listview_adapter extends BaseAdapter {
-        ArrayList<listview_item> items = new ArrayList<listview_item>();
-        LayoutInflater mLayoutInflater = null;
-        @Override
-        public int getCount() {
-            return items.size();
-        }
-
-        public listview_adapter(Context context){
-            mLayoutInflater=LayoutInflater.from(context);
-        }
-
-        public void addItem(listview_item item){
-            items.add(item);
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return items.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        public void clear(){
-            items.clear();
-        }
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            view=convertView;
-            if(view == null) {
-                view=mLayoutInflater.inflate(R.layout.item2,null);
-            }
-            img_test = (ImageView)view.findViewById(R.id.rectangle);
-            img_like = (ImageView)view.findViewById(R.id.like);
-            delete = (ImageView)view.findViewById(R.id.imageView7);
-            img_like.setImageResource(R.drawable.like);
-            delete.setImageResource(R.drawable.ddonggodelete);
-            listview_item item = items.get(position);
-            storageRef.child("images/"+item.getmainId()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>(){
-                @Override
-                public void onSuccess(Uri uri){
-                    Glide.with(view.getContext()).load(uri).placeholder(R.drawable.boom).diskCacheStrategy(DiskCacheStrategy.RESOURCE).into(img_test);
-                }
-            }).addOnFailureListener(new OnFailureListener(){
-                @Override
-                public void onFailure(@NonNull Exception exception){
-                }
-            });
-            delete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-                    Query NoNamesQuery = ref.child("Post").orderByChild("img").equalTo(item.getmainId());
-
-                    NoNamesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            for (DataSnapshot NoNameSnapshot: dataSnapshot.getChildren()) {
-                                NoNameSnapshot.getRef().removeValue();
-                            }
-                        }
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                        }
-                    });
-                }
-            });
-            return view;
-        }
-    }*/
 }
 
