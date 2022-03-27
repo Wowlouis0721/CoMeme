@@ -18,6 +18,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -56,8 +58,9 @@ public class comicmake_detail extends AppCompatActivity{
 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_comicmake_detail);
+        String getString=getIntent().getStringExtra("key");
+
         sendbt=(Button)findViewById(R.id.reg_button);
         ListView listView=(ListView)findViewById(R.id.listView);
         EditText comment_et=(EditText)findViewById(R.id.comment_et);
@@ -65,10 +68,15 @@ public class comicmake_detail extends AppCompatActivity{
         List<String> list = new ArrayList<>();
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list);
         listView.setAdapter(adapter);
-        FirebaseDatabase.getInstance().getReference().addValueEventListener(new ValueEventListener(){
+        FirebaseDatabase.getInstance().getReference(getString).addValueEventListener(new ValueEventListener(){
             @Override
             public void onDataChange(DataSnapshot dataSnapshot){
+                adapter.clear();
                 for(DataSnapshot snapshot:dataSnapshot.getChildren()){
+                    Log.d("info",snapshot.getKey().toString());
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    String uid=user.getUid();
+                    Log.d("uid",snapshot.getKey().toString());
                     adapter.add(snapshot.getValue().toString());
                 }
                 adapter.notifyDataSetChanged();
@@ -81,7 +89,7 @@ public class comicmake_detail extends AppCompatActivity{
         sendbt.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
                 String comment = comment_et.getText().toString();
-                databaseReference.child("message").push().setValue(comment);
+                databaseReference.child(getString).push().setValue(comment);
                 adapter.add(comment);
                 adapter.notifyDataSetChanged();
             }
@@ -96,5 +104,4 @@ public class comicmake_detail extends AppCompatActivity{
             this.nowTime=nowTime;
         }
     }
-
 }

@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -89,22 +90,25 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
             }
         });
         viewholder.delete.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-                Query NoNamesQuery = ref.child("Post").orderByChild("img").equalTo(item.getmainId());
 
-                NoNamesQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot NoNameSnapshot: dataSnapshot.getChildren()) {
-                            NoNameSnapshot.getRef().removeValue();
+                Query NoNamesQuery = ref.child("Post").orderByChild("img").equalTo(item.getmainId());
+                NoNamesQuery.addListenerForSingleValueEvent(new
+
+                    ValueEventListener() {
+                        @Override
+                        public void onDataChange (DataSnapshot dataSnapshot){
+                            for (DataSnapshot NoNameSnapshot : dataSnapshot.getChildren()) {
+                                NoNameSnapshot.getRef().removeValue();
+                            }
                         }
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                    }
-                });
+                        @Override
+                        public void onCancelled (DatabaseError databaseError){
+                        }
+                    });
             }
         });
 
@@ -119,6 +123,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.CustomView
             @Override
             public void onClick(View v){
                 Intent open=new Intent(v.getContext(), com.comemepro.comicmake_detail.class);
+                open.putExtra("key",item.getkey());
                 v.getContext().startActivity(open);
             }
         });
